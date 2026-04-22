@@ -1,0 +1,254 @@
+# Trade Mirror – Frontend Product Requirements Document (PRD)
+
+## 1. Overview
+
+**Product Name:** Trade Mirror
+
+**Purpose:**
+Trade Mirror is a frontend application that allows traders to mirror, track, and analyze trades across multiple broker accounts in real time or near–real time. The product focuses on clarity, speed, and trust—making it easy to see *what* is being traded, *where*, and *why*.
+
+**Core Value Proposition:**
+
+> One view. Many accounts. Zero confusion.
+
+The frontend is designed as a professional trading cockpit: minimal, dark, fast, and information‑dense without being overwhelming.
+
+---
+
+## 2. Target Users
+
+### Primary Users
+
+* Retail forex / CFD traders
+* Funded account traders (prop firms)
+* Traders running the same strategy across multiple brokers
+
+### Secondary Users
+
+* Trading mentors managing student mirror accounts
+* System traders monitoring execution quality
+
+---
+
+## 3. Goals & Success Metrics
+
+### Product Goals
+
+* Allow users to monitor mirrored trades across brokers instantly
+* Provide confidence that execution is aligned across accounts
+* Surface discrepancies (slippage, missed trades, partial fills)
+* Reduce cognitive load during active trading
+
+### Success Metrics
+
+* Time to understand account state < 5 seconds
+* < 1% user‑reported confusion about trade status
+* Daily active usage during trading sessions
+* High retention among multi‑account traders
+
+---
+
+## 4. Assumptions & Constraints
+
+* Backend handles trade execution & mirroring logic
+* Frontend is read‑heavy, write‑light
+* Real‑time updates via WebSockets or polling
+* Desktop‑first (mobile later)
+
+---
+
+## 5. Application Structure
+
+### Global Layout
+
+* Dark professional theme
+* Persistent collapsible sidebar
+* Top bar for account switching & global status
+
+**Sidebar Tabs:**
+
+1. Dashboard
+2. History
+3. Analytics
+
+---
+
+## 6. Key User Flows
+
+### 6.1 Account Switching
+
+1. User selects active broker group or master account
+2. All views update instantly
+3. Global status reflects connection health
+
+### 6.2 Trade Monitoring (Live)
+
+1. Trade is placed on master account
+2. Mirrored trades appear across slave accounts
+3. User sees execution status per broker
+
+### 6.3 Discrepancy Detection
+
+1. Frontend highlights mismatches (lot size, price, SL/TP)
+2. Visual warnings appear in dashboard
+
+---
+
+## 7. Pages & Features
+
+### 7.1 Dashboard
+
+**Purpose:**
+Instant situational awareness.
+
+**Components:**
+
+* **Account Summary Cards**
+
+  * Broker name
+  * Account balance / equity
+  * Open trades count
+  * Connection status (🟢 / 🟡 / 🔴)
+
+* **Live Trades Table**
+
+  * Symbol
+  * Direction (Buy/Sell)
+  * Lot size per broker
+  * Entry price
+  * SL / TP
+  * PnL (real‑time)
+  * Status (Mirrored / Partial / Failed)
+
+* **Discrepancy Indicators**
+
+  * Highlight rows where trades diverge
+  * Tooltip explaining the mismatch
+
+---
+
+### 7.2 History
+
+**Purpose:**
+Audit trail and accountability.
+
+**Components:**
+
+* **Trade History Table**
+
+  * Date & time
+  * Symbol
+  * Broker
+  * Entry & exit
+  * Result (R, PnL)
+  * Execution notes
+
+* **Filters**
+
+  * Date range
+  * Broker
+  * Symbol
+  * Outcome
+
+* **Expandable Trade Rows**
+
+  * Per‑broker execution breakdown
+
+---
+
+### 7.3 Analytics
+
+**Purpose:**
+Execution quality & performance insights.
+
+**Components:**
+
+* **Execution Metrics**
+
+  * Average slippage per broker
+  * Missed trades count
+  * Partial fill frequency
+
+* **Performance Charts**
+
+  * Equity curves per broker
+  * R‑multiple distribution
+  * Win rate comparison
+
+* **Broker Comparison Panel**
+
+  * Side‑by‑side stats
+  * Best / worst execution tags
+
+---
+
+## 8. States & Feedback
+
+### System States
+
+* Loading
+* Connected
+* Degraded
+* Disconnected
+
+### Visual Feedback
+
+* Subtle animations for live updates
+* Color‑coded statuses (green / amber / red)
+* Non‑intrusive toast notifications
+
+---
+
+## 9. UX & Design Principles
+
+* **Speed over decoration**
+* **Readable at a glance**
+* **No unnecessary confirmations**
+* **Professional trading‑desk aesthetic**
+
+Typography:
+
+* Sans‑serif (Inter or similar)
+* Clear hierarchy
+
+---
+
+## 10. Tech Stack (Frontend)
+
+* Framework: Next.js (App Router)
+* Styling: Tailwind CSS
+* UI Components: shadcn/ui
+* State Management: Zustand or React Context
+* Charts: Recharts
+* Realtime: WebSockets
+
+---
+
+## 11. Non‑Goals (v1)
+
+* Manual trade placement
+* Strategy configuration
+* Mobile‑first experience
+* Social or copy trading discovery
+
+---
+
+## 12. Future Enhancements
+
+* Mobile companion app
+* Alert rules (execution failures, slippage thresholds)
+* Trade tagging & journaling
+* Strategy‑level analytics
+
+---
+
+## 13. Open Questions
+
+* Latency tolerance for real‑time updates?
+* Should users be able to pause mirroring per broker?
+* How much control vs observability in v1?
+
+---
+
+**Tone Check:**
+Trade Mirror should feel like a *control room*, not a social app. Calm. Precise. Trust‑building.

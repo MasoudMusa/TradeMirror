@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Profile {
+  id               String    @id @default(uuid())
+  email            String?   @unique
+  full_name        String?
+  avatar_url       String?
+  discord_id       String?   @unique
+  discord_username String?
+  discord_avatar   String?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  accounts Account[]
+
+  @@map("profiles")
+}
+
+model Account {
+  id                String    @id @default(uuid())
+  user_id           String
+  mt5_account_id    String
+  broker            String?
+  currency          String?
+  leverage          Int?
+  balance           Float?
+  equity            Float?
+  profit            Float?
+  margin            Float?
+  free_margin       Float?
+  is_active         Boolean   @default(true)
+  last_sync_at      DateTime?
+  last_heartbeat_at DateTime?
+
+  trades  Trade[]
+  profile Profile @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, mt5_account_id])
+  @@index([user_id])
+  @@index([mt5_account_id])
+  @@map("accounts")
+}
+
+model Trade {
+  id            String    @id @default(uuid())
+  account_id    String
+  ticket        BigInt
+  symbol        String
+  direction     String?
+  lot_size      Float?
+  entry_price   Float?
+  exit_price    Float?
+  current_price Float?
+  sl            Float?
+  tp            Float?
+  status        String?
+  open_time     DateTime?
+  close_time    DateTime?
+  pnl           Float?
+  floating_pnl  Float?
+  commission    Float?
+  swap          Float?
+  mfe           Float?
+  mae           Float?
+  result_r      Float?
+  bias          String?
+  setup_type    String?
+  entry_model   String?
+  session       String?
+  timeframe     String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  account Account @relation(fields: [account_id], references: [id], onDelete: Cascade)
+
+  @@unique([account_id, ticket])
+  @@index([account_id])
+  @@index([status])
+  @@index([symbol])
+  @@map("trades")
+}
+
+model AccessToken {
+  id           String    @id @default(uuid())
+  user_id      String
+  token_hash   String    @unique
+  name         String?
+  created_at   DateTime  @default(now())
+  last_used_at DateTime?
+
+  @@index([user_id])
+  @@map("access_tokens")
+}
+
+model TradeEvent {
+  id         String   @id @default(uuid())
+  trade_id   String
+  event_type String
+  data       Json?
+  screenshot String?
+  timestamp  DateTime @default(now())
+
+  @@index([trade_id])
+  @@index([event_type])
+  @@map("trade_events")
+}
